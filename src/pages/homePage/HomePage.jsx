@@ -12,40 +12,45 @@ export const HomePage = () => {
   const qrRef = useRef(null);
   const html5QrCodeRef = useRef(null);
 
-  const startScanning = () => {
+  const startScanning = async () => {
     if (!qrRef.current) return;
 
     html5QrCodeRef.current = new Html5Qrcode(qrRef.current.id);
 
-    html5QrCodeRef.current
-      .start(
+    try {
+      await html5QrCodeRef.current.start(
         { facingMode: "environment" },
-        {
-          fps: 10,
-          qrbox: 250,
-        },
-        (decodedText, decodedResult) => {
-          // QR считан
+        { fps: 10, qrbox: 400 },
+        (decodedText) => {
           navigate(`${decodedText}`);
           stopScanning();
         },
         (errorMessage) => {
-          console.warn(errorMessage);
+          console.warn("QR error:", errorMessage);
         }
-      )
-      .catch((err) => {
-        console.error("Ошибка запуска камеры:", err);
-        setScanning(false);
-      });
+      );
+      setScanning(true);
+    } catch (err) {
+      console.error("Ошибка запуска камеры:", err);
+      alert(
+        "Не удалось получить доступ к камере. Проверьте разрешения или используйте HTTPS."
+      );
+      html5QrCodeRef.current = null;
+      setScanning(false);
+    }
   };
 
-  const stopScanning = () => {
-    if (html5QrCodeRef.current) {
-      html5QrCodeRef.current.stop().finally(() => {
-        html5QrCodeRef.current.clear();
-        html5QrCodeRef.current = null;
-        setScanning(false);
-      });
+  const stopScanning = async () => {
+    if (!html5QrCodeRef.current) return;
+
+    try {
+      await html5QrCodeRef.current.stop();
+    } catch (err) {
+      console.warn("Сканер не был запущен или уже остановлен", err);
+    } finally {
+      html5QrCodeRef.current.clear();
+      html5QrCodeRef.current = null;
+      setScanning(false);
     }
   };
 
@@ -78,7 +83,14 @@ export const HomePage = () => {
               ref={qrRef}
               style={{ width: "100%", height: "400px" }}
             />
-            <button onClick={stopScanning}>Отменить</button>
+          </div>
+        )}
+
+        {scanning && (
+          <div className={clsx("container", styles.create_btn_wrap)}>
+            <button className={clsx(styles.create_btn)} onClick={stopScanning}>
+              Отменить
+            </button>
           </div>
         )}
       </div>

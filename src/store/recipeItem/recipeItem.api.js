@@ -28,6 +28,14 @@ export const recipeItemApi = createApi({
       }),
       invalidatesTags: ["RecipeItemList", "RecipeList"],
     }),
+    updateRecipeStatus: builder.mutation({
+      query: (codeid) => ({
+        url: "/update-recipe-status",
+        method: "POST",
+        body: codeid,
+      }),
+      invalidatesTags: ["RecipeItemList", "RecipeList"],
+    }),
   }),
 });
 
@@ -35,4 +43,5 @@ export const {
   useGetRecipeItemQuery,
   useAddRecipeItemMutation,
   useGetRecipeQuery,
+  useUpdateRecipeStatusMutation,
 } = recipeItemApi;

@@ -15,6 +15,7 @@ import {
   useGetPatientsQuery,
   useGetRecipeItemQuery,
   useGetRecipeQuery,
+  useUpdateRecipeStatusMutation,
 } from "../../store";
 
 import styles from "./PatientPage.module.scss";
@@ -30,6 +31,7 @@ export const PatientPage = () => {
   const navigate = useNavigate();
 
   const { data: patients, isLoading, isFetching } = useGetPatientsQuery();
+  const [update] = useUpdateRecipeStatusMutation();
 
   const { data: recipe } = useGetRecipeQuery();
   const { data: recipeItem } = useGetRecipeItemQuery();
@@ -41,11 +43,13 @@ export const PatientPage = () => {
 
   const findPatient = patients?.find((item) => +item?.codeid === +codeid);
 
-  console.log(findPatient, "findPatient");
-
   const findRecipeItem = recipeItem?.filter(
     (item) => +item.prescription_codeid === +prescription
   );
+
+  const findRecipe = recipe?.find((item) => +item?.codeid === +prescription);
+
+  console.log(findRecipe, "findRecipe");
 
   const mappedRecipeWithNames = findRecipeItem?.map((item) => {
     const drug = drugs?.find((d) => d.codeid === +item.drug_codeid);
@@ -67,6 +71,12 @@ export const PatientPage = () => {
         : "",
     };
   });
+
+  console.log(mappedRecipeWithNames, "mappedRecipeWithNames");
+
+  const onFinish = () => {
+    update({ codeid: +findRecipe?.codeid });
+  };
 
   return (
     <Spin spinning={isLoading || isFetching}>
@@ -154,12 +164,15 @@ export const PatientPage = () => {
           )}
 
           <div className={clsx("container", styles.create_btn_wrap)}>
-            <button
-              className={clsx(styles.create_btn)}
-              onClick={() => navigate("/")}
-            >
-              Выдать рецепт
-            </button>
+            {findRecipe?.status === 1 ? (
+              <button disabled className={clsx(styles.create_btn_dis)}>
+                Выдано
+              </button>
+            ) : (
+              <button className={clsx(styles.create_btn)} onClick={onFinish}>
+                Выдать рецепт
+              </button>
+            )}
           </div>
         </section>
       </main>

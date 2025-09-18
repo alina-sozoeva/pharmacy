@@ -6,5 +6,7 @@ export const gender = {
 export const pathname = {
   home: "/",
   patients: "/patients",
+  login: "/login",
+
   patient: "/patient/:codeid/:prescription",
 };

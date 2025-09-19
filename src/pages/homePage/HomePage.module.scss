@@ -1,41 +1,49 @@
-.doc {
-  &_add {
-    background-color: var(--grey-color);
-    padding: 10px 20px;
-
-    span {
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-
-    button {
-      background-color: var(--green-color);
-      border: none;
-      padding: 5px 10px;
-      color: var(--white-color);
-      border-radius: 10px;
-    }
-  }
-}
-
-.doc_add {
-  input {
-    font-weight: 200;
-  }
-}
-
-.create_btn_wrap {
-  position: fixed;
-  bottom: 0;
-  background-color: var(--grey-color);
-  padding: 10px 20px 30px 10px;
-}
-
-.create_btn {
-  width: 100%;
-  background-color: var(--green-color);
-  border: none;
-  padding: 10px;
+.main {
   color: var(--white-color);
-  border-radius: 5px;
+}
+
+.new_rx {
+  padding: 80px 0;
+  gap: 10px;
+  background-color: var(--primary-color);
+  box-shadow: 0 1px 20px var(--primary-color);
+  cursor: pointer;
+
+  img {
+    width: 35%;
+  }
+
+  span {
+    font-size: 200;
+  }
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-top: 10px;
+}
+
+.act {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &:nth-child(2n) {
+    border-left: 2px solid var(--grey-color);
+  }
+
+  &:nth-child(n + 3) {
+    border-top: 2px solid var(--grey-color);
+  }
+
+  svg {
+    font-size: 40px;
+  }
+
+  span {
+    color: var(--primary-color);
+  }
 }

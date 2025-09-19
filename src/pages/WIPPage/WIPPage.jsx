@@ -1,5 +1,5 @@
 import { Button, Result } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const WIPPage = () => {
   const navigate = useNavigate();

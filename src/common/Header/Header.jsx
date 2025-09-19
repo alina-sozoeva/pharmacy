@@ -1,6 +1,7 @@
 import {
   CaretDownOutlined,
   HomeFilled,
+  LeftOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
 import { Dropdown, Flex, Space } from "antd";
@@ -50,24 +51,67 @@ export const Header = () => {
   return (
     <header className={clsx(styles.header)}>
       <section className={clsx(styles.header_content, "container")}>
-        <Flex justify="space-between" align="center">
-          <span onClick={() => navigate("/")}>
-            <HomeFilled />
-          </span>
-          <Dropdown menu={{ items }} trigger={["click"]}>
-            <div onClick={(e) => e.preventDefault()}>
-              <Space>
-                <button className={clsx(styles.btn)}>
-                  {findUser?.name.charAt(0)}
-                </button>
-                <Flex vertical gap={4}>
-                  <p className={clsx(styles.user_info)}>{findUser?.login}</p>
-                </Flex>
-                <CaretDownOutlined />
-              </Space>
-            </div>
-          </Dropdown>
-        </Flex>
+        {path === pathname.home && (
+          <Flex justify="space-between" align="center">
+            <span onClick={() => navigate("/")}>
+              <HomeFilled />
+            </span>
+            <Dropdown menu={{ items }} trigger={["click"]}>
+              <div onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <button className={clsx(styles.btn)}>
+                    {findUser?.name.charAt(0)}
+                  </button>
+                  <Flex vertical gap={4}>
+                    <p className={clsx(styles.user_info)}>{findUser?.login}</p>
+                  </Flex>
+                  <CaretDownOutlined />
+                </Space>
+              </div>
+            </Dropdown>
+          </Flex>
+        )}
+        {path === pathname.recipe && (
+          <Flex justify="space-between" align="center">
+            <span onClick={() => navigate("/")}>
+              <HomeFilled />
+            </span>
+            <Dropdown menu={{ items }} trigger={["click"]}>
+              <div onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <button className={clsx(styles.btn)}>
+                    {findUser?.name.charAt(0)}
+                  </button>
+                  <Flex vertical gap={4}>
+                    <p className={clsx(styles.user_info)}>{findUser?.login}</p>
+                  </Flex>
+                  <CaretDownOutlined />
+                </Space>
+              </div>
+            </Dropdown>
+          </Flex>
+        )}
+        {path.startsWith("/patient/") && (
+          <Flex justify="space-between" align="center">
+            <LeftOutlined
+              onClick={() => navigate(pathname.recipe)}
+              style={{ width: "60px" }}
+            />{" "}
+            <Dropdown menu={{ items }} trigger={["click"]}>
+              <div onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <button className={clsx(styles.btn)}>
+                    {findUser?.name.charAt(0)}
+                  </button>
+                  <Flex vertical gap={4}>
+                    <p className={clsx(styles.user_info)}>{findUser?.login}</p>
+                  </Flex>
+                  <CaretDownOutlined />
+                </Space>
+              </div>
+            </Dropdown>
+          </Flex>
+        )}
       </section>
     </header>
   );

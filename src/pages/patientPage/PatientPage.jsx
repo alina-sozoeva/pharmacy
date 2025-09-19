@@ -2,9 +2,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { Empty, Flex, Spin } from "antd";
 
-import { DownOutlined, PhoneFilled } from "@ant-design/icons";
+import { CalendarOutlined, MailOutlined, PhoneFilled } from "@ant-design/icons";
 import { gender } from "../../enums";
-import { useState } from "react";
 
 import {
   useGetCoursesQuery,
@@ -23,6 +22,9 @@ import clsx from "clsx";
 
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
+import { FaUserDoctor } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+import { users } from "../../data";
 
 dayjs.locale("ru");
 
@@ -78,10 +80,21 @@ export const PatientPage = () => {
     update({ codeid: +findRecipe?.codeid });
   };
 
+  const userId = useSelector((state) => state.user.userId);
+  const findUser = users.find((item) => item.id === +userId);
+
   return (
     <Spin spinning={isLoading || isFetching}>
       <main className={clsx(styles.patient, "relative")}>
         <section className={clsx("container relative")}>
+          <Flex
+            className={clsx(styles.patient_header, "container")}
+            justify="space-between"
+            align="center"
+          >
+            <span className={clsx(styles.title)}>Пациент</span>
+            {/* <span className={clsx(styles.act_btn)}>Изменить</span> */}
+          </Flex>
           <Flex vertical className={clsx(styles.patient_about)}>
             <Flex justify="space-between">
               <Flex vertical>
@@ -95,6 +108,12 @@ export const PatientPage = () => {
                 </Flex>
                 <span className={clsx(styles.patient_info_gender)}>
                   <b>Пол:</b> {gender[findPatient?.gender]}
+                </span>
+                <span className={clsx(styles.patient_info_gender)}>
+                  <PhoneFilled /> {findPatient?.phone}
+                </span>
+                <span className={clsx(styles.patient_info_gender)}>
+                  <MailOutlined /> {findPatient?.email}
                 </span>
               </Flex>
 
@@ -123,7 +142,6 @@ export const PatientPage = () => {
               className={clsx(styles.active_med_title, "mb-2")}
               justify="space-between"
             >
-              <span>Медицинская история</span>
               {/* <span className={clsx(styles.act_btn)}>Вытащить запись</span> */}
             </Flex>
           </div>
@@ -131,13 +149,30 @@ export const PatientPage = () => {
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
           ) : (
             <div className={clsx(styles.recipeCard)}>
+              <Flex
+                justify="space-between"
+                className={clsx(styles.recipeCardInfo, "my-2")}
+              >
+                <Flex align="center" className={clsx("gap-[5px]")}>
+                  <FaUserDoctor />
+                  {findUser?.name || "-"}{" "}
+                </Flex>
+
+                <p>
+                  <CalendarOutlined style={{ marginRight: 4 }} />
+
+                  {dayjs(findRecipe?.created_at).format("DD.MM.YYYY HH:mm")}
+                </p>
+              </Flex>
+
               <table className={clsx(styles.recipeTable)}>
                 <thead>
                   <tr>
-                    <th>Лекарство</th>
+                    <th>Медикаменты</th>
                     <th>Доза</th>
                     <th>Прием</th>
                     <th>Курс</th>
+                    {findRecipe?.status !== 1 && <th>Наличие</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -156,6 +191,11 @@ export const PatientPage = () => {
                         {med.time_after_food && "после еды "}
                       </td>
                       <td>{med.courseName} д.</td>
+                      {findRecipe?.status !== 1 && (
+                        <td style={{ textAlign: "center" }}>
+                          <input type="checkbox" />
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>

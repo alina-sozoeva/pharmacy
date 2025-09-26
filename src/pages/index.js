@@ -3,3 +3,4 @@ export * from "./loginPage";
 export * from "./patientPage";
 export * from "./WIPPage";
 export * from "./recipePage";
+export * from "./prescriptionsPage";

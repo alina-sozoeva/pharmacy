@@ -12,6 +12,14 @@ export const prescriptionApi = createApi({
       }),
       providesTags: ["PrescriptionList"],
     }),
+    getMappedRecipes: builder.query({
+      query: (filter) => ({
+        url: "/mapped-recipes",
+        method: "GET",
+        params: filter,
+      }),
+      providesTags: ["PrescriptionList"],
+    }),
     addPrescription: builder.mutation({
       query: (newPrescription) => ({
         url: "/prescription",
@@ -34,5 +42,6 @@ export const prescriptionApi = createApi({
 export const {
   useGetPrescriptionQuery,
   useAddPrescriptionMutation,
+  useGetMappedRecipesQuery,
   useAddPatientPrescriptionMutation,
 } = prescriptionApi;

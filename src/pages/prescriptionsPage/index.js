@@ -1,2 +1,1 @@
-export * from "./MyErrorBoundary";
 export * from "./PrescriptionsPage";

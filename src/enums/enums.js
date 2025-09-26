@@ -10,4 +10,5 @@ export const pathname = {
   login: "/login",
   recipe: "/recipe",
   patient: "/patient/:codeid/:prescription",
+  prescriptions: "/prescriptions-written",
 };

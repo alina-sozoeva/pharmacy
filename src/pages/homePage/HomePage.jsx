@@ -19,7 +19,7 @@ const acts = [
     key: 1,
     icon: <HiOutlineDocumentText />,
     title: "Выданные рецепты",
-    path: "/written",
+    path: pathname.prescriptions,
   },
   {
     key: 2,

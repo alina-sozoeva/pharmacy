@@ -1,13 +1,15 @@
 import { useForm } from "antd/es/form/Form";
-import { Button, Flex, Form, Input, Typography } from "antd";
+import { Flex, Form, Input, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
-import styles from "./LoginPage.module.scss";
-import clsx from "clsx";
+
 import { useDispatch } from "react-redux";
 import { addUserId } from "../../store/slices";
 import { users } from "../../data";
 import { toast } from "react-toastify";
 import { pathname } from "../../enums";
+
+import styles from "./LoginPage.module.scss";
+import clsx from "clsx";
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
@@ -53,7 +55,7 @@ export const LoginPage = () => {
             },
           ]}
         >
-          <Input placeholder="Введите логин" />
+          <Input placeholder="Введите логин" style={{ width: "250px" }} />
         </Form.Item>
         <Form.Item
           name="password"
@@ -65,13 +67,23 @@ export const LoginPage = () => {
             },
           ]}
         >
-          <Input.Password placeholder="Введите пароль" />
+          <Input.Password
+            placeholder="Введите пароль"
+            style={{ width: "250px" }}
+          />
         </Form.Item>
         <Form.Item>
-          <Flex>
+          <Flex align="center" justify="center" className={clsx("w-full")}>
             <button className={clsx(styles.btn)}>Войти</button>
           </Flex>
         </Form.Item>
+
+        <Flex vertical className={clsx(styles.info)}>
+          <span>Цифровые решения "Бехруз Софт"</span>
+          <span>Номер телефона: +996(555)-954-120</span>
+          <span>WhatsApp: +996(555)-954-120</span>
+          <span>Почта: admin@333.kg</span>
+        </Flex>
       </Form>
     </section>
   );

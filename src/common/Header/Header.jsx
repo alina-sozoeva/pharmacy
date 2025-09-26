@@ -29,6 +29,7 @@ export const Header = () => {
     dispatch(removeUserId());
   };
 
+
   const items = [
     {
       label: <p>{findUser?.login}</p>,
@@ -102,6 +103,38 @@ export const Header = () => {
                 <Space>
                   <button className={clsx(styles.btn)}>
                     {findUser?.name.charAt(0)}
+                  </button>
+                  <Flex vertical gap={4}>
+                    <p className={clsx(styles.user_info)}>{findUser?.login}</p>
+                  </Flex>
+                  <CaretDownOutlined />
+                </Space>
+              </div>
+            </Dropdown>
+          </Flex>
+        )}
+        {(path === pathname.prescriptions ||
+          path === pathname.reports ||
+          path === pathname.notifications ||
+          path === pathname.diagnostics) && (
+          <Flex justify="space-between" align="center">
+            <div
+              className={clsx(styles.prev_arr)}
+              onClick={() => navigate("/")}
+            >
+              <LeftOutlined style={{ width: "80px" }} />{" "}
+            </div>
+            {path === pathname.prescriptions && <span>Выданные рецепты</span>}
+            {path === pathname.reports && <span>Отчет за послений месяц</span>}
+            {path === pathname.notifications && <span>Уведомления</span>}
+            {path === pathname.diagnostics && <span>Диагностика</span>}
+
+            <span></span>
+            <Dropdown menu={{ items }} trigger={["click"]}>
+              <div onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <button className={clsx(styles.btn)}>
+                    {findUser?.name?.charAt(0)}
                   </button>
                   <Flex vertical gap={4}>
                     <p className={clsx(styles.user_info)}>{findUser?.login}</p>

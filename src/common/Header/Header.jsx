@@ -3,6 +3,7 @@ import {
   HomeFilled,
   LeftOutlined,
   LogoutOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { Dropdown, Flex, Space } from "antd";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -10,29 +11,30 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { pathname } from "../../enums";
 import { useDispatch, useSelector } from "react-redux";
 import { users } from "../../data";
-import { removeUserId } from "../../store/slices";
 
 import styles from "./Header.module.scss";
 import clsx from "clsx";
+import { removeUser } from "../../store";
 
 export const Header = () => {
-  const { guid } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
   const path = location.pathname;
-  const userId = useSelector((state) => state.user.userId);
-  const findUser = users.find((item) => item.id === +userId);
+  const user = useSelector((state) => state.user.user);
 
   const logOut = () => {
-    dispatch(removeUserId());
+    dispatch(removeUser());
   };
-
 
   const items = [
     {
-      label: <p>{findUser?.login}</p>,
+      label: (
+        <Space>
+          <UserOutlined className={clsx("text-blue")} /> Admin
+        </Space>
+      ),
       key: "0",
     },
 
@@ -41,8 +43,8 @@ export const Header = () => {
     },
     {
       label: (
-        <Space onClick={logOut}>
-          Выйти <LogoutOutlined rotate={270} />
+        <Space onClick={() => navigate("/login")}>
+          <LogoutOutlined rotate={270} className={clsx("text-red")} /> Выйти
         </Space>
       ),
       key: "3",
@@ -61,10 +63,10 @@ export const Header = () => {
               <div onClick={(e) => e.preventDefault()}>
                 <Space>
                   <button className={clsx(styles.btn)}>
-                    {findUser?.name.charAt(0)}
+                    {user?.nameid.charAt(0)}
                   </button>
                   <Flex vertical gap={4}>
-                    <p className={clsx(styles.user_info)}>{findUser?.login}</p>
+                    <p className={clsx(styles.user_info)}>{user?.login}</p>
                   </Flex>
                   <CaretDownOutlined />
                 </Space>
@@ -81,10 +83,10 @@ export const Header = () => {
               <div onClick={(e) => e.preventDefault()}>
                 <Space>
                   <button className={clsx(styles.btn)}>
-                    {findUser?.name.charAt(0)}
+                    {user?.nameid.charAt(0)}
                   </button>
                   <Flex vertical gap={4}>
-                    <p className={clsx(styles.user_info)}>{findUser?.login}</p>
+                    <p className={clsx(styles.user_info)}>{user?.login}</p>
                   </Flex>
                   <CaretDownOutlined />
                 </Space>
@@ -102,10 +104,10 @@ export const Header = () => {
               <div onClick={(e) => e.preventDefault()}>
                 <Space>
                   <button className={clsx(styles.btn)}>
-                    {findUser?.name.charAt(0)}
+                    {user?.nameid.charAt(0)}
                   </button>
                   <Flex vertical gap={4}>
-                    <p className={clsx(styles.user_info)}>{findUser?.login}</p>
+                    <p className={clsx(styles.user_info)}>{user?.login}</p>
                   </Flex>
                   <CaretDownOutlined />
                 </Space>
@@ -134,10 +136,10 @@ export const Header = () => {
               <div onClick={(e) => e.preventDefault()}>
                 <Space>
                   <button className={clsx(styles.btn)}>
-                    {findUser?.name?.charAt(0)}
+                    {user?.nameid?.charAt(0)}
                   </button>
                   <Flex vertical gap={4}>
-                    <p className={clsx(styles.user_info)}>{findUser?.login}</p>
+                    <p className={clsx(styles.user_info)}>{user?.login}</p>
                   </Flex>
                   <CaretDownOutlined />
                 </Space>

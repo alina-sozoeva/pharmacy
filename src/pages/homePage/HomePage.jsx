@@ -11,8 +11,8 @@ import {
   HiOutlineDocumentText,
   HiOutlineClipboardDocumentList,
   HiOutlineBell,
-  HiOutlineBeaker,
 } from "react-icons/hi2";
+import { MedicineBoxOutlined } from "@ant-design/icons";
 
 const acts = [
   {
@@ -29,14 +29,14 @@ const acts = [
   },
   {
     key: 3,
-    icon: <HiOutlineBell />,
-    title: "Уведомления",
+    icon: <MedicineBoxOutlined />,
+    title: "Диагностика",
     path: "/notifications",
   },
   {
     key: 4,
-    icon: <HiOutlineBeaker />,
-    title: "ПДМП",
+    icon: <HiOutlineBell />,
+    title: "Уведомления",
     path: "/other",
   },
 ];

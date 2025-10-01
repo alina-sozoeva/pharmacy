@@ -28,7 +28,9 @@
   position: fixed;
   bottom: 0;
   background-color: var(--grey-color);
-  padding: 10px 20px 30px 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
 }
 
 .create_btn {
@@ -38,4 +40,5 @@
   padding: 10px;
   color: var(--white-color);
   border-radius: 5px;
+  width: 250px;
 }

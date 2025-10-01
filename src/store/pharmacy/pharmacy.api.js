@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { addUser } from "../slices";
 
 export const pharmacyApi = createApi({
   reducerPath: "pharmacyApi",
@@ -28,6 +29,22 @@ export const pharmacyApi = createApi({
       }),
       invalidatesTags: ["PharmacyList"],
     }),
+    loginPharmacists: builder.mutation({
+      query: (doc) => ({
+        url: "/login-pharmacists",
+        method: "POST",
+        body: doc,
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(addUser(data?.data));
+        } catch (err) {
+          console.error("Login failed", err);
+        }
+      },
+      invalidatesTags: ["DoctorList"],
+    }),
   }),
 });
 
@@ -35,4 +52,5 @@ export const {
   useGetPharmacyQuery,
   useAddPharmacyMutation,
   useUpdatePharmacyMutation,
+  useLoginPharmacistsMutation,
 } = pharmacyApi;

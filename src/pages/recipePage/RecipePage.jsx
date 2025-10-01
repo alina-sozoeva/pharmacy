@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Flex } from "antd";
+import { Flex, Input } from "antd";
 import { Html5Qrcode } from "html5-qrcode";
 
 import styles from "./RecipePage.module.scss";
@@ -8,6 +8,7 @@ import clsx from "clsx";
 
 export const RecipePage = () => {
   const [scanning, setScanning] = useState(false);
+  const [code, setCode] = useState(false);
   const navigate = useNavigate();
   const qrRef = useRef(null);
   const html5QrCodeRef = useRef(null);
@@ -59,6 +60,10 @@ export const RecipePage = () => {
     return () => stopScanning();
   }, [scanning]);
 
+  const onCode = () => {
+    setCode(true);
+  };
+
   return (
     <main>
       <div className={clsx(styles.doc, "container")}>
@@ -74,6 +79,12 @@ export const RecipePage = () => {
           >
             Отсканировать QR
           </button>
+          {/* <button
+            onClick={() => setCode(true)}
+            style={{ whiteSpace: "nowrap", display: "inline-block" }}
+          >
+            Ввести код
+          </button> */}
         </Flex>
 
         {scanning && (
@@ -91,6 +102,26 @@ export const RecipePage = () => {
             <button className={clsx(styles.create_btn)} onClick={stopScanning}>
               Отменить
             </button>
+          </div>
+        )}
+
+        {code && (
+          <div className={clsx("container", styles.create_btn_wrap)}>
+            <button
+              className={clsx(styles.create_btn)}
+              onClick={() => setCode(false)}
+            >
+              Отменить
+            </button>
+          </div>
+        )}
+
+        {code && (
+          <div className={clsx("m-2")}>
+            <Input
+              placeholder="Введите код"
+              // onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
         )}
       </div>

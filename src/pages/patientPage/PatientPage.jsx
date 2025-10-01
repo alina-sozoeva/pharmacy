@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Empty, Flex, Spin } from "antd";
+import { Button, Empty, Flex, Spin } from "antd";
 
 import { CalendarOutlined, MailOutlined, PhoneFilled } from "@ant-design/icons";
 import { gender } from "../../enums";
@@ -24,7 +24,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/ru";
 import { FaUserDoctor } from "react-icons/fa6";
 import { useSelector } from "react-redux";
-import { users } from "../../data";
+import { printPrescription } from "../../utils";
 
 dayjs.locale("ru");
 
@@ -32,11 +32,16 @@ export const PatientPage = () => {
   const { codeid, prescription } = useParams();
   const navigate = useNavigate();
 
+  const prescriptionParse = JSON.parse(prescription);
+  console.log(typeof prescriptionParse, "prescription");
+
   const { data: patients, isLoading, isFetching } = useGetPatientsQuery();
   const [update] = useUpdateRecipeStatusMutation();
 
   const { data: recipe } = useGetRecipeQuery();
-  const { data: recipeItem } = useGetRecipeItemQuery();
+  const { data: recipeItem } = useGetRecipeItemQuery({
+    prescriptionId: prescriptionParse,
+  });
   const { data: doses } = useGetDoseQuery();
   const { data: drugs } = useGetDrugQuery();
   const { data: frequency } = useGetFrequencyQuery();
@@ -76,12 +81,24 @@ export const PatientPage = () => {
 
   console.log(mappedRecipeWithNames, "mappedRecipeWithNames");
 
-  const onFinish = () => {
-    update({ codeid: +findRecipe?.codeid });
+  const user = useSelector((state) => state.user.user);
+
+  console.log(user, "user");
+
+  const handlePrint = async () => {
+    printPrescription({
+      prescription: mappedRecipeWithNames,
+      findPatient,
+      user,
+    });
   };
 
-  const userId = useSelector((state) => state.user.userId);
-  const findUser = users.find((item) => item.id === +userId);
+  const onFinish = () => {
+    update({ codeid: +findRecipe?.codeid, pharmacists_codeid: user?.codeid });
+    handlePrint();
+  };
+
+  console.log(findRecipeItem, "findRecipeItem");
 
   return (
     <Spin spinning={isLoading || isFetching}>
@@ -155,7 +172,7 @@ export const PatientPage = () => {
               >
                 <Flex align="center" className={clsx("gap-[5px]")}>
                   <FaUserDoctor />
-                  {findUser?.name || "-"}{" "}
+                  {user?.nameid || "-"}{" "}
                 </Flex>
 
                 <p>

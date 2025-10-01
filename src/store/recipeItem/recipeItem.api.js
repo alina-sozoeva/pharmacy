@@ -7,8 +7,9 @@ export const recipeItemApi = createApi({
   endpoints: (builder) => ({
     getRecipeItem: builder.query({
       query: (prescriptionId) => ({
-        url: `/recipe-item?prescriptionId=${prescriptionId}`,
+        url: `/recipe-item`,
         method: "GET",
+        params: prescriptionId,
       }),
       providesTags: ["RecipeItemList"],
     }),
@@ -29,10 +30,10 @@ export const recipeItemApi = createApi({
       invalidatesTags: ["RecipeItemList", "RecipeList"],
     }),
     updateRecipeStatus: builder.mutation({
-      query: (codeid) => ({
+      query: (recipe) => ({
         url: "/update-recipe-status",
         method: "POST",
-        body: codeid,
+        body: recipe,
       }),
       invalidatesTags: ["RecipeItemList", "RecipeList"],
     }),

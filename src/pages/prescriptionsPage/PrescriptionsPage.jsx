@@ -80,7 +80,7 @@ export const PrescriptionsPage = () => {
           </Flex>
 
           <Flex vertical style={{ maxHeight: "600px", overflowY: "auto" }}>
-            {data?.length === 0 ? (
+            {filteredData?.length === 0 ? (
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             ) : (
               filteredData?.map((item) => (

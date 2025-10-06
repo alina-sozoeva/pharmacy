@@ -6,11 +6,10 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Dropdown, Flex, Space } from "antd";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { pathname } from "../../enums";
 import { useDispatch, useSelector } from "react-redux";
-import { users } from "../../data";
 
 import styles from "./Header.module.scss";
 import clsx from "clsx";
@@ -32,7 +31,7 @@ export const Header = () => {
     {
       label: (
         <Space>
-          <UserOutlined className={clsx("text-blue")} /> Admin
+          <UserOutlined className={clsx("text-blue")} /> {user?.login}
         </Space>
       ),
       key: "0",
